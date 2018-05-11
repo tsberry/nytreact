@@ -1,4 +1,4 @@
-const router = require("express").Router;
+const router = require("express").Router();
 const articleRoutes = require("./articles");
 
 router.use("/articles", articleRoutes);
