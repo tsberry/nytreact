@@ -28,7 +28,7 @@ class SavedContainer extends React.Component {
 
     render() {
         return (
-            <div id="saved-container">
+            <div>
                 {this.state.articles.map(article => <Article article={article} deleteArticle={this.deleteArticle} />)}
             </div>
         );

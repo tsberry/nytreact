@@ -6,7 +6,9 @@ import Article from "./Article";
 class ArticleContainer extends React.Component {
     state = {
         articles: [],
-        search: ""
+        search: "",
+        startYear: "",
+        endYear: ""
     }
 
     handleInputChange = event => {
@@ -24,7 +26,7 @@ class ArticleContainer extends React.Component {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
 
-        API.search(this.state.search)
+        API.search(this.state.search, this.state.startYear, this.state.endYear)
             .then(res => {
                 var articles = [];
                 var nytResponse = res.data.response.docs;
@@ -32,10 +34,12 @@ class ArticleContainer extends React.Component {
                     articles.push({
                         title: nytResponse[i].headline.main,
                         url: nytResponse[i].web_url,
-                        date: nytResponse[i].pub_date
+                        date: nytResponse[i].pub_date,
+                        byline: nytResponse[i].byline.original,
+                        summary: nytResponse[i].snippet
                     });
                 }
-                this.setState({articles: articles});
+                this.setState({ articles: articles });
             })
             .catch(err => console.log(err));
 
@@ -50,9 +54,13 @@ class ArticleContainer extends React.Component {
 
     render() {
         return (
-            <div id="article-container">
-            <Form handleInputChange={this.handleInputChange} handleFormSubmit={this.handleFormSubmit} value={this.state.search} />
-                {this.state.articles.map(article => <Article article={article} saveArticle={this.saveArticle}/>)}
+            <div>
+                <div>
+                    <Form handleInputChange={this.handleInputChange} handleFormSubmit={this.handleFormSubmit} search={this.state.search} startYear={this.state.startYear} endYear={this.state.endYear} />
+                </div>
+                <div>
+                    {this.state.articles.map(article => <Article article={article} saveArticle={this.saveArticle} />)}
+                </div>
             </div>
         );
     }
