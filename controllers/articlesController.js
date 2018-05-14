@@ -12,7 +12,7 @@ module.exports = {
             .catch(err => res.status(422).json(err));
     },
     delete: function (req, res) {
-        db.Article.remove(req.body)
+        db.Article.remove({_id: req.body._id})
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     }

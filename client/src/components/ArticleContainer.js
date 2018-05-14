@@ -44,11 +44,15 @@ class ArticleContainer extends React.Component {
         });
     };
 
+    saveArticle = article => {
+        API.save(article);
+    }
+
     render() {
         return (
             <div id="article-container">
             <Form handleInputChange={this.handleInputChange} handleFormSubmit={this.handleFormSubmit} value={this.state.search} />
-                {this.state.articles.map(article => <Article title={article.title} url={article.url} date={article.date} />)}
+                {this.state.articles.map(article => <Article article={article} saveArticle={this.saveArticle}/>)}
             </div>
         );
     }
